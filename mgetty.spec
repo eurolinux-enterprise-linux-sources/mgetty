@@ -6,7 +6,7 @@
 Summary: A getty replacement for use with data and fax modems
 Name: mgetty
 Version: 1.1.36
-Release: 24%{?dist}
+Release: 26%{?dist}
 Source: ftp://mgetty.greenie.net/pub/mgetty/source/1.1/mgetty%{version}-%{date}.tar.gz
 Source1: ftp://mgetty.greenie.net/pub/mgetty/source/1.1/mgetty%{version}-%{date}.tar.gz.asc
 Source2: logrotate.mgetty
@@ -373,6 +373,12 @@ fi
 %{_mandir}/man1/viewfax.1*
 
 %changelog
+* Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 1.1.36-26
+- Mass rebuild 2014-01-24
+
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 1.1.36-25
+- Mass rebuild 2013-12-27
+
 * Fri Jul 26 2013 Michal Sekletar <msekleta@redhat.com> - 1.1.36-24
 - enable hardeninig on every architecture
 - add uucp group and user to mgetty package since we no longer ship uucp in RHEL7
