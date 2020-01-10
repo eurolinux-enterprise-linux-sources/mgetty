@@ -18,4 +18,4 @@ KillMode=process
 IgnoreSIGPIPE=no
 
 [Install]
-WantedBy=getty@.target
+WantedBy=getty.target

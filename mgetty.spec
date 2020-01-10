@@ -6,7 +6,7 @@
 Summary: A getty replacement for use with data and fax modems
 Name: mgetty
 Version: 1.1.36
-Release: 26%{?dist}
+Release: 28%{?dist}
 Source: ftp://mgetty.greenie.net/pub/mgetty/source/1.1/mgetty%{version}-%{date}.tar.gz
 Source1: ftp://mgetty.greenie.net/pub/mgetty/source/1.1/mgetty%{version}-%{date}.tar.gz.asc
 Source2: logrotate.mgetty
@@ -51,7 +51,6 @@ BuildRequires: libX11-devel, libXext-devel, texinfo-tex, texlive-dvips, lockdev-
 Requires: coreutils, /usr/sbin/sendmail
 Requires(post): /sbin/install-info, systemd
 Requires(preun): /sbin/install-info, systemd
-Conflicts: hylafax+
 URL: http://mgetty.greenie.net/
 
 %package sendfax
@@ -61,6 +60,7 @@ Group: Applications/Communications
 Requires: coreutils
 Requires: netpbm-progs
 Requires(pre): /usr/sbin/useradd
+Conflicts: hylafax+
 
 %package voice
 Summary: A program for using your modem and mgetty as an answering machine
@@ -198,9 +198,9 @@ rm -f %{buildroot}%{_bindir}/g3topbm
 getent group uucp >/dev/null || groupadd -g 14 -r uucp
 if ! getent passwd uucp >/dev/null ; then
   if ! getent passwd 10 >/dev/null ; then
-     useradd -r -u 10 -g uucp -d /var/spool/uucp  -c "Uucp user" uucp
+     useradd -r -u 10 -g uucp -d /var/spool/uucp  -c "Uucp user" -s /sbin/nologin uucp
   else
-     useradd -r -g uucp -d /var/spool/uucp  -c "Uucp user" uucp
+     useradd -r -g uucp -d /var/spool/uucp  -c "Uucp user" -s /sbin/nologin uucp
   fi
 fi
 
@@ -373,6 +373,13 @@ fi
 %{_mandir}/man1/viewfax.1*
 
 %changelog
+* Fri Aug 15 2014 Michal Sekletar <msekleta@redhat.com> - 1.1.36-28
+- Make /sbin/nologin default shell of uucp user
+
+* Fri Aug 15 2014 Michal Sekletar <msekleta@redhat.com> - 1.1.36-27
+- Fix [Install] section of unit file. Enable mgetty and vgetty under getty.target (#1127898)
+- Declare conflict with hylafax+ only for mgetty-sendfax subpackage (#1129054)
+
 * Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 1.1.36-26
 - Mass rebuild 2014-01-24
 
