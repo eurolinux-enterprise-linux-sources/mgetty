@@ -4,7 +4,7 @@
 Summary: A getty replacement for use with data and fax modems
 Name: mgetty
 Version: 1.1.36
-Release: 8%{?dist}
+Release: 9%{?dist}
 Source: ftp://mgetty.greenie.net/pub/mgetty/source/1.1/mgetty%{version}-%{date}.tar.gz
 Source1: ftp://mgetty.greenie.net/pub/mgetty/source/1.1/mgetty%{version}-%{date}.tar.gz.asc
 Source2: logrotate.mgetty
@@ -30,6 +30,7 @@ Patch20: mgetty-1.1.33-167830.patch
 Patch21: mgetty-1.1.33-turn.patch
 Patch22: mgetty-1.1.33-time_range.patch
 Patch23: mgetty-1.1.36-handle_spaces.patch
+Patch24: 0001-Don-t-strip-binaries-at-install-time.patch
 
 License: GPLv2+
 Group: Applications/Communications
@@ -118,6 +119,7 @@ mv policy.h-dist policy.h
 %patch21 -p1 -b .turn
 %patch22 -p1 -b .time_range
 %patch23 -p1 -b .handle_spaces
+%patch24 -p1 -b .debug
 
 %build
 %define makeflags CFLAGS="$RPM_OPT_FLAGS -Wall -DAUTO_PPP -D_FILE_OFFSET_BITS=64 -fno-strict-aliasing" prefix=%{_prefix} spool=%{_var}/spool BINDIR=%{_bindir} SBINDIR=%{_sbindir} LIBDIR=%{_libdir}/mgetty+sendfax HELPDIR=%{_libdir}/mgetty+sendfax CONFDIR=%{_sysconfdir}/mgetty+sendfax MANDIR=%{_mandir} MAN1DIR=%{_mandir}/man1 MAN4DIR=%{_mandir}/man4 MAN5DIR=%{_mandir}/man5 MAN8DIR=%{_mandir}/man8 INFODIR=%{_infodir} ECHO='"echo -e"' INSTALL=%{__install}
@@ -331,6 +333,9 @@ exit 0
 %{_mandir}/man1/viewfax.1*
 
 %changelog
+* Mon Jan 26 2015 Michal Sekletar <msekleta@redhat.com> - 1.1.36-9
+- don't strip binaries at install time, thus debuginfo package is generated properly (#729003)
+
 * Thu Jun 03 2010 Jiri Skala <jskala@redhat.com> - 1.1.36-8
 - Resolves: #599389 - RPMdiff run failed. Added no-strict-alisting option
 
